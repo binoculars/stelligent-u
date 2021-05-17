@@ -25,4 +25,9 @@ Resources:
               - s3:List* 
             Resource: arn:aws:s3:::*
 
+Outputs:
+  PolicyArn:
+    Value: !Ref Policy
+    Export:
+      Name: s3ReadOnlyPolicyArn
         
