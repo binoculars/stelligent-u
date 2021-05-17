@@ -1,0 +1,4 @@
+Description: Creates an S3 Bucket
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
