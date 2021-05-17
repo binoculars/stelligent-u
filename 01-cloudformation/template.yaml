@@ -4,8 +4,13 @@ Parameters:
   BucketName:
     Type: String
 
+Conditions:
+  IsDefaultRegion: !Equals [!Ref AWS::Region, us-east-1]
+
 Resources:
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub ${AWS::AccountId}-${BucketName}
+      BucketName: !Sub
+        - ${prefix}-${BucketName}
+        - prefix: !If [IsDefaultRegion, !Ref AWS::AccountId, !Ref AWS::Region]
