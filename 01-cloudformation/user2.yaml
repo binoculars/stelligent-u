@@ -1,0 +1,14 @@
+Description: Creates a user and a managed policy with readonly S3 access
+
+Parameters:
+  UserName:
+    Type: String
+
+Resources:
+  User:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Ref UserName
+      ManagedPolicyArns: 
+        - !ImportValue s3ReadOnlyPolicyArn
+        
