@@ -1,0 +1,12 @@
+Description: Creates an S3 Bucket
+
+Parameters:
+  FriendlyName:
+    Type: String
+    Default: bkh-stelligent-u
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::Region}-${AWS::AccountId}-${FriendlyName}
