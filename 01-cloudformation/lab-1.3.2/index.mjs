@@ -1,4 +1,4 @@
-import { CloudFormationClient, CreateStackCommand, UpdateStackCommand, DescribeStacksCommand } from '@aws-sdk/client-cloudformation';
+import { CloudFormationClient, CreateStackCommand, UpdateStackCommand, DeleteStackCommand, DescribeStacksCommand } from '@aws-sdk/client-cloudformation';
 import regions from './regions.json';
 import fs from 'fs';
 
@@ -22,6 +22,8 @@ async function checkIfStackExists(client, StackName) {
 
 const TemplateBody = fs.readFileSync('template.yaml').toString();
 
+const del = process.argv.includes('--delete');
+
 await Promise.all(
     // Iterate over all regions asynchronously
     regions.map(async region => {
@@ -29,9 +31,15 @@ await Promise.all(
         const stackExists = await checkIfStackExists(client, stackName);
         console.log(region, 'Stack exists:', stackExists);
 
-        const command = stackExists ?
-            new UpdateStackCommand({StackName: stackName, TemplateBody}) :
-            new CreateStackCommand({StackName: stackName, TemplateBody});
+        let command;
+
+        if (del) {
+            command = new DeleteStackCommand({StackName: stackName});
+        } else if (stackExists) {
+            command = new UpdateStackCommand({StackName: stackName, TemplateBody});
+        } else {
+            command = new CreateStackCommand({StackName: stackName, TemplateBody});
+        }       
         
         try {
             await client.send(command);
