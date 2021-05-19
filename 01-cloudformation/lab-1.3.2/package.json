@@ -1,0 +1,17 @@
+{
+  "name": "lab-1.3.2",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "author": "Barrett Harber <barrett.harber@stelligent.com>",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "start": "node --experimental-json-modules index.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cloudformation": "^3.16.0"
+  }
+}
