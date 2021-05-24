@@ -11,6 +11,8 @@ Resources:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
       AccessControl: PublicRead
+      VersioningConfiguration:
+        Status: Enabled
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
