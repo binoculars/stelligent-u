@@ -1,0 +1,22 @@
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement: 
+          - Effect: Allow
+            Principal: 
+              AWS: !Sub arn:aws:iam::${AWS::AccountId}:user/barrett.harber.labs
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - iam:Get*
+                  - iam:List*
+                  - iam:Generate*
+                Resource: '*'
