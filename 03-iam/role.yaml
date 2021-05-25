@@ -9,6 +9,8 @@ Resources:
             Principal: 
               AWS: !Sub arn:aws:iam::${AWS::AccountId}:user/barrett.harber.labs
             Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
   Role2:
     Type: AWS::IAM::Role
     Properties:
@@ -19,20 +21,6 @@ Resources:
             Principal: 
               AWS: !Sub arn:aws:iam::${AWS::AccountId}:user/barrett.harber.labs
             Action: sts:AssumeRole
-  ManagedPolicy:
-    Type: AWS::IAM::ManagedPolicy
-    Properties:
-      ManagedPolicyName: IamReadOnly
-      Description: Provides IAM Read only access
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Action:
-              - iam:Get*
-              - iam:List*
-              - iam:Generate*
-            Resource: '*'
-      Roles:
-        - !Ref Role
-        - !Ref Role2
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
+        - arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess
