@@ -1,4 +1,4 @@
-Description: Lab 3.2.1
+Description: Lab 3.2.3
 Resources:
   Role:
     Type: AWS::IAM::Role
@@ -12,3 +12,7 @@ Resources:
             Action: sts:AssumeRole
       ManagedPolicyArns:
        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
+       - arn:aws:iam::aws:policy/AmazonS3FullAccess
+
+  Bucket:
+    Type: AWS::S3::Bucket
