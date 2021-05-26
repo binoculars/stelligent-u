@@ -74,6 +74,10 @@ Resources:
 Outputs:
   VpcId:
     Value: !Ref VPC
+    Export:
+      Name: bkh-VpcId
 
   SubnetId:
     Value: !Ref Subnet
+    Export:
+      Name: bkh-SubnetId

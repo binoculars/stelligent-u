@@ -1,0 +1,58 @@
+Parameters:
+  LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+  
+  InstanceType:
+    Type: String
+    Default: t3.nano
+
+  KeyName:
+    Type: String
+    Default: bkh-key-pair
+
+Resources:
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !ImportValue bkh-VpcId
+      GroupDescription: Allow SSH inbound
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: user
+          Value: barrett.harber.labs
+        - Key: stelligent-u-lesson
+          Value: '4.1'
+        - Key: stelligent-u-lab
+          Value: '4.1.2'
+
+  Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      NetworkInterfaces:
+        - GroupSet: [!Ref SecurityGroup]
+          AssociatePublicIpAddress: true
+          DeviceIndex: '0'
+          DeleteOnTermination: true
+          SubnetId: !ImportValue bkh-SubnetId
+      Tags:
+        - Key: user
+          Value: barrett.harber.labs
+        - Key: stelligent-u-lesson
+          Value: '4.1'
+        - Key: stelligent-u-lab
+          Value: '4.1.2'
+
+Outputs:
+  InstanceId:
+    Value: !Ref Instance
+
+  PrivateIpAddress:
+    Value: !GetAtt Instance.PrivateIp
