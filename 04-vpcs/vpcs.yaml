@@ -1,0 +1,36 @@
+Parameters:
+  CidrBlock:
+    Type: String
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref CidrBlock
+      Tags:
+        - Key: user
+          Value: barrett.harber.labs
+        - Key: stelligent-u-lesson
+          Value: '4.1'
+        - Key: stelligent-u-lab
+          Value: '4.1.1'
+
+  Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [0, !Cidr [!GetAtt VPC.CidrBlock , 1, 8]]
+      Tags:
+        - Key: user
+          Value: barrett.harber.labs
+        - Key: stelligent-u-lesson
+          Value: '4.1'
+        - Key: stelligent-u-lab
+          Value: '4.1.1'
+
+Outputs:
+  VpcId:
+    Value: !Ref VPC
+
+  SubnetId:
+    Value: !Ref Subnet
